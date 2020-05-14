@@ -13,9 +13,14 @@ body {
     filter: invert(100%);
 }
 
+.main-title {
+    margin: 0 auto;
+    text-align: center;
+}
+
 .container-fluid {
     margin-top: 83px;
-    min-height: calc(100vh - 160px);
+    min-height: calc(100vh - 145px);
     background: linear-gradient(rgb(247, 210, 168), #f59d39);
 }
 
@@ -54,6 +59,11 @@ body {
 .card-params {
     display: flex;
     justify-content: space-between;
+}
+
+.qty-minus,
+.qty-plus {
+    cursor: pointer;
 }
 
 .footer {

@@ -1,0 +1,28 @@
+<%- include('./partials/header'); -%>
+
+    <div class="row main-row">
+        <%- include('./partials/categories-menu'); -%>
+            <div class="col-lg-4">
+                <h2 class="main-title">
+                    <%= title %>
+                </h2>
+                <img src="<%= picture %>" alt="<%= title %>">
+                <div><span>Category: </span>
+                    <span class="font-weight-bold"><%= category %></span>
+                </div>
+                <div><span>Cuisine: </span>
+                    <span class="font-weight-bold"><%= cuisine %></span>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <h3 class="text-center">
+                    Recipe:
+                </h3>
+                <p class="text-justify">
+                    <%= recipe %>
+                </p>
+            </div>
+            <%- include('./partials/areas-menu'); -%>
+    </div>
+
+    <%- include('./partials/footer'); -%>

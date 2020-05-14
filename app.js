@@ -18,7 +18,7 @@ const app = express();
 
 app.set('view engine', 'ejs');
 
-app.use(express.static(__dirname + "/public"));
+app.use('/static', express.static("public"));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
@@ -61,15 +61,37 @@ app.get("/areas/:areaName", (req, res) => {
         .catch(error => console.log(error));
 });
 
-app.get("/meals/:meal-id", (req, res) => {
-    const mealID = req.params.meal - id;
+app.get("/meals/:mealID", (req, res) => {
+    const mealID = req.params.mealID;
+    console.log(mealID);
     const baseUrl = "https://www.themealdb.com/api/json/v1/1/lookup.php?i=" + mealID;
     axios.get(baseUrl)
-        .then(mealItem => {
-            console.log(mealItem);
-            res.redirect("/");
+        .then(mealData => {
+            const mealItem = mealData.data.meals[0];
+            const ingreds = [];
+            for (let i = 1; i < 20; i++) {
+                let ingredientField = 'strIngredient' + i;
+                let measureField = 'strMeasure' + i;
+                if (mealItem[ingredientField] !== '') {
+                    ingreds.push({
+                        ingredient: mealItem[ingredientField],
+                        measure: mealItem[measureField]
+                    });
+                }
+            }
+            res.render('meal-page', {
+                title: mealItem.strMeal,
+                picture: mealItem.strMealThumb,
+                recipe: mealItem.strInstructions,
+                category: mealItem.strCategory,
+                cuisine: mealItem.strArea,
+                ingredients: ingreds,
+                movie: mealItem.strYoutube,
+                categoryNames: state.categoryNames,
+                areaNames: state.areaNames,
+            });
         })
-        .catch(error => console.log);
+        .catch(error => console.log(error));
 });
 
 app.listen(port, () => {

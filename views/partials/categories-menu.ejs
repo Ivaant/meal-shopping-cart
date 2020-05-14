@@ -1,0 +1,10 @@
+<div class="col side-bar">
+    <h4>Meal Categories:</h4>
+    <% categoryNames.forEach(categoryName => { %>
+        <p class="side-menu">
+            <a href="/categories/<%= categoryName.strCategory %>">
+                <%= categoryName.strCategory %>
+            </a>
+        </p>
+        <% }); %>
+</div>

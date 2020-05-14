@@ -1,5 +1,5 @@
 {
-    "name": "Meal-Shopping-Cart",
+    "name": "meal-shopping-cart",
     "version": "1.0.0",
     "description": "",
     "main": "index.js",
@@ -18,5 +18,9 @@
         "express": "^4.17.1",
         "express-session": "^1.17.1",
         "mongoose": "^5.9.13"
-    }
+    },
+    "emmet.includeLanguages": {
+        "ejs": "html"
+    },
+    "jslint.enable": true
 }
