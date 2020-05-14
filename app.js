@@ -63,7 +63,6 @@ app.get("/areas/:areaName", (req, res) => {
 
 app.get("/meals/:mealID/index/:index", (req, res) => {
     const { mealID, index } = req.params;
-    console.log(mealID);
     const baseUrl = "https://www.themealdb.com/api/json/v1/1/lookup.php?i=" + mealID;
     axios.get(baseUrl)
         .then(mealData => {
