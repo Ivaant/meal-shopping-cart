@@ -6,9 +6,9 @@
                     <%= mealsTitle %>
                 </h2>
                 <div class="main-flex">
-                    <% meals.forEach(meal => { %>
+                    <% meals.forEach((meal, index) => { %>
                         <div class="card m-2 p-2 w-25">
-                            <a href="/meals/<%= meal.idMeal %>">
+                            <a href="/meals/<%= meal.idMeal %>/index/<%= index %>">
                                 <img src="<%= meal.strMealThumb %>" class="card-img-top w-100" alt="meal">
                             </a>
                             <div class="card-body py-2">
@@ -24,9 +24,11 @@
                                     <input type="number" name="qty" class="qty" value="1" min="1" style="width: 60px;">
                                     <span class="qty-plus"><i class="fa fa-plus"></i></span>
                                     </span>
-                                    <form action="/" method="POST">
+                                    <form action="/cart" method="POST">
                                         <input type="hidden" name="mealID" value="<%= meal.idMeal %>">
-                                        <button type="submit" class="btn btn-warning ml-auto p-2">Details</button>
+                                        <button type="submit" class="btn btn-warning ml-auto p-2">
+                                            <i class="fas fa-cart-arrow-down"></i>
+                                        </button>
                                     </form>
                                 </div>
 

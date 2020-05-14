@@ -61,8 +61,8 @@ app.get("/areas/:areaName", (req, res) => {
         .catch(error => console.log(error));
 });
 
-app.get("/meals/:mealID", (req, res) => {
-    const mealID = req.params.mealID;
+app.get("/meals/:mealID/index/:index", (req, res) => {
+    const { mealID, index } = req.params;
     console.log(mealID);
     const baseUrl = "https://www.themealdb.com/api/json/v1/1/lookup.php?i=" + mealID;
     axios.get(baseUrl)
@@ -82,13 +82,14 @@ app.get("/meals/:mealID", (req, res) => {
             res.render('meal-page', {
                 title: mealItem.strMeal,
                 picture: mealItem.strMealThumb,
+                meal: state.meals[index],
                 recipe: mealItem.strInstructions,
                 category: mealItem.strCategory,
                 cuisine: mealItem.strArea,
                 ingredients: ingreds,
                 movie: mealItem.strYoutube,
                 categoryNames: state.categoryNames,
-                areaNames: state.areaNames,
+                areaNames: state.areaNames
             });
         })
         .catch(error => console.log(error));

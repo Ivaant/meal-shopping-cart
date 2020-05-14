@@ -13,6 +13,22 @@
                 <div><span>Cuisine: </span>
                     <span class="font-weight-bold"><%= cuisine %></span>
                 </div>
+                <div class="card-params">
+                    <span>
+                    <%= meal.price %>
+                </span>
+                    <span class="qty-wrap">
+                    <span class="qty-minus"><i class="fa fa-minus"></i></span>
+                    <input type="number" name="qty" class="qty" value="1" min="1" style="width: 60px;">
+                    <span class="qty-plus"><i class="fa fa-plus"></i></span>
+                    </span>
+                    <form action="/cart" method="POST">
+                        <input type="hidden" name="mealID" value="<%= meal.idMeal %>">
+                        <button type="submit" class="btn btn-warning ml-auto p-2">
+                           Add to Cart <i class="fas fa-cart-arrow-down"></i>
+                        </button>
+                    </form>
+                </div>
             </div>
             <div class="col-lg-4">
                 <h3 class="text-center">
