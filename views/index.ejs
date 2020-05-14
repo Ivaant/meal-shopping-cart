@@ -1,0 +1,54 @@
+<%- include('./partials/header'); -%>
+    <div class="container-fluid">
+        <div class="row main-row">
+            <div class="col side-bar">
+                <h4>Meal Categories:</h4>
+                <% categoryNames.forEach(categoryName => { %>
+                    <p class="side-menu">
+                        <a href="/categories/<%= categoryName.strCategory %>">
+                            <%= categoryName.strCategory %>
+                        </a>
+                    </p>
+                    <% }); %>
+            </div>
+            <div class="col-lg-8">
+                <h2 style="text-align: center;">
+                    <%= mealsTitle %>
+                </h2>
+                <div class="main-flex">
+                    <% meals.forEach(meal => { %>
+                        <div class="card m-2 p-2 w-25">
+                            <img src="<%= meal.strMealThumb %>" class="card-img-top w-100" alt="meal">
+                            <div class="card-body py-2">
+                                <h6 class="card-title text-center">
+                                    <%= meal.strMeal %>
+                                </h6>
+                                <div class="card-params">
+                                    <span class="price text-right">
+                                    <%= meal.price %>
+                                </span>
+                                    <span class="qty-wrap">
+                                    <span class="qty-minus"><i class="fa fa-minus"></i></span>
+                                    <input type="number" name="qty" class="qty" value="1" min="1" style="width: 60px;">
+                                    <span class="qty-plus"><i class="fa fa-plus"></i></span>
+                                    </span>
+                                </div>
+
+                                <input type="hidden" name="meal-id" value="<%= meal.idMeal %>">
+                            </div>
+                        </div>
+                        <% }); %>
+                </div>
+            </div>
+            <div class="col side-bar">
+                <h4>Cuisines:</h4>
+                <% areaNames.forEach(areaName => { %>
+                    <p class="side-menu">
+                        <a href="/areas/<%= areaName.strArea %>">
+                            <%= areaName.strArea %>
+                        </a>
+                    </p>
+                    <% }); %>
+            </div>
+        </div>
+        <%- include('./partials/footer'); -%>
