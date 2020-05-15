@@ -6,6 +6,9 @@ const session = require('express-session');
 const MongoDBStore = require('connect-mongodb-session')(session);
 const priceGen = require(__dirname + '/lib/price-gen.js');
 const initState = require(__dirname + '/lib/init-state.js');
+const { Item, Cart } = require(__dirname + '/lib/Cart.js');
+console.log(Item.prototype);
+console.log(Cart.prototype);
 const port = process.env.PORT || 3000;
 
 let state;
@@ -22,7 +25,27 @@ app.use('/static', express.static("public"));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
+const store = new MongoDBStore({
+    uri: 'mongodb://localhost:27017/mealCartDB',
+    collection: 'sessions'
+});
+
+app.use(session({
+    secret: "This is a shopping cart application",
+    resave: false,
+    saveUninitialized: true,
+    unset: 'destroy',
+    store: store
+}));
+
+mongoose.connect("mongodb://localhost:27017/mealCartDB", { useNewUrlParser: true, useUnifiedTopology: true });
+mongoose.set('useCreateIndex', true);
+mongoose.set('useFindAndModify', false);
+
 app.get("/", (req, res) => {
+    if (!req.session.cart) {
+        req.session.cart = new Cart();
+    }
     res.render('index', {
         categoryNames: state.categoryNames,
         areaNames: state.areaNames,
@@ -93,6 +116,28 @@ app.get("/meals/:mealID/index/:index", (req, res) => {
         })
         .catch(error => console.log(error));
 });
+
+app.route("/cart")
+    .get((req, res) => {
+        res.redirect("/");
+    })
+    .post((req, res) => {
+        //console.log(req.body);
+        const { qty, mealID, image, title, price } = req.body;
+        const priceNum = parseFloat(price.slice(1));
+        const cartItem = new Item(mealID, image, title, priceNum, parseInt(qty));
+        const cart = req.session.cart ? req.session.cart : null;
+        if (cart) {
+            Cart.addItem(cartItem, cart);
+            console.dir(cartItem);
+            console.dir(cart);
+
+        }
+        res.redirect("/");
+    })
+    .put((req, res) => {
+        res.redirect("/");
+    });
 
 app.listen(port, () => {
     console.log(`Server is listening at port ${port}`);
