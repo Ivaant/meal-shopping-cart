@@ -7,8 +7,6 @@ const MongoDBStore = require('connect-mongodb-session')(session);
 const priceGen = require(__dirname + '/lib/price-gen.js');
 const initState = require(__dirname + '/lib/init-state.js');
 const { Item, Cart } = require(__dirname + '/lib/Cart.js');
-console.log(Item.prototype);
-console.log(Cart.prototype);
 const port = process.env.PORT || 3000;
 
 let state;
@@ -45,7 +43,10 @@ mongoose.set('useFindAndModify', false);
 app.get("/", (req, res) => {
     if (!req.session.cart) {
         req.session.cart = new Cart();
+    } else {
+        req.session.cart = Cart.deserializeCart(req.session.cart);
     }
+    console.log("inside get /", req.session.cart);
     res.render('index', {
         categoryNames: state.categoryNames,
         areaNames: state.areaNames,
@@ -125,13 +126,16 @@ app.route("/cart")
         //console.log(req.body);
         const { qty, mealID, image, title, price } = req.body;
         const priceNum = parseFloat(price.slice(1));
-        const cartItem = new Item(mealID, image, title, priceNum, parseInt(qty));
-        const cart = req.session.cart ? req.session.cart : null;
-        if (cart) {
-            Cart.addItem(cartItem, cart);
-            console.dir(cartItem);
-            console.dir(cart);
+        const qtyNum = parseInt(qty);
+        const cartItem = new Item(mealID, image, title, priceNum, qtyNum);
 
+        let cart = req.session.cart ? req.session.cart : null;
+        if (cart) {
+            cart = Cart.deserializeCart(cart);
+            cart.addItem(cartItem);
+            req.session.cart = cart;
+            console.log("cartItem inside post /cart", cartItem);
+            console.log("session.cart inside post /cart", req.session.cart);
         }
         res.redirect("/");
     })
