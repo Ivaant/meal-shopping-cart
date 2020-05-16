@@ -1,6 +1,6 @@
 'use strict';
 
-const Store = {
+const counter = {
     quantity: () => {
         let qtyWrap = document.querySelectorAll('.qty-wrap');
         if (qtyWrap.length > 0) {
@@ -26,5 +26,5 @@ const Store = {
 };
 
 document.addEventListener('DOMContentLoaded', () => {
-    Store.quantity();
+    counter.quantity();
 });

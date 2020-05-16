@@ -120,10 +120,13 @@ app.get("/meals/:mealID/index/:index", (req, res) => {
 
 app.route("/cart")
     .get((req, res) => {
-        res.redirect("/");
+        res.render("cart-page", {
+            categoryNames: state.categoryNames,
+            areaNames: state.areaNames,
+            cart: Cart.deserializeCart(req.session.cart)
+        });
     })
     .post((req, res) => {
-        //console.log(req.body);
         const { qty, mealID, image, title, price } = req.body;
         const priceNum = parseFloat(price.slice(1));
         const qtyNum = parseInt(qty);
@@ -134,14 +137,20 @@ app.route("/cart")
             cart = Cart.deserializeCart(cart);
             cart.addItem(cartItem);
             req.session.cart = cart;
-            console.log("cartItem inside post /cart", cartItem);
-            console.log("session.cart inside post /cart", req.session.cart);
         }
-        res.redirect("/");
+        res.redirect("/cart");
     })
     .put((req, res) => {
         res.redirect("/");
     });
+
+app.get("/cart/:mealID", (req, res) => {
+    const mealID = req.params.mealID;
+    const cart = Cart.deserializeCart(req.session.cart);
+    cart.deleteItem(mealID);
+    req.session.cart = cart;
+    res.redirect("/cart");
+});
 
 app.listen(port, () => {
     console.log(`Server is listening at port ${port}`);
