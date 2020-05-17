@@ -161,6 +161,20 @@ app.post("/cart/:mealID", (req, res) => {
     req.session.cart = cart;
     res.redirect("/cart");
 });
+app.get("/checkout", (req, res) => {
+    res.render("checkout-page", {
+        categoryNames: state.categoryNames,
+        areaNames: state.areaNames,
+        totalAmount: req.session.cart.formattedTotal
+    });
+});
+
+app.post("/checkout", (req, res) => {
+    const { name, phoneNumber, email, deliveryType, paymentType } = req.body;
+    console.log(req.body);
+
+    res.redirect("/checkout");
+});
 
 app.listen(port, () => {
     console.log(`Server is listening at port ${port}`);

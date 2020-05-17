@@ -1,0 +1,94 @@
+<%- include('./partials/header'); -%>
+    <div class="row main-row">
+        <%- include('./partials/categories-menu'); -%>
+            <div class="col-12 col-md-8">
+                <h2 class="main-title">Confirm Your Order here</h2>
+                <form action="/checkout" method="POST">
+                    <div class="row">
+                        <div class="col-12 col-md-6">
+                            <h4 class="main-title">Delivery Info</h4>
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label" for="name">Name*</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control" id="name" name="name" placeholder="Put your name here" required>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label" for="phone-number">Phone number*</label>
+                                <div class="col-sm-10">
+                                    <input type="tel" pattern="\d{7,}" class="form-control" id="phone-number" name="phoneNumber" placeholder="Put your number 7 digits min" required>
+                                    <small id="phoneHelp" class="form-text text-muted">Your phone is required to confirm the order.</small>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label" for="email">E-mail</label>
+                                <div class="col-sm-10">
+                                    <input type="email" class="form-control" id="email" name="email" placeholder="Put your email here">
+                                    <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+                                </div>
+                            </div>
+                            <br>
+                            <h5 class="main-title">Delivery Type</h5>
+
+                            <table class="table table-hover">
+                                <tr>
+                                    <td class="align-middle">
+                                        <input type="radio" name="deliveryType" id="courier" value="courier" checked>
+                                    </td>
+                                    <td class="align-middle">
+                                        <label class="pl-4" for="courier">
+                                        Courier
+                                      </label>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="align-middle">
+                                        <input class="" type="radio" name="deliveryType" id="self-delivery" value="self-delivery">
+                                    </td>
+                                    <td class="align-middle">
+                                        <label class="pl-4" for="self-delivery">
+                                        Self-delivery
+                                      </label>
+                                    </td>
+                                </tr>
+                            </table>
+                            <br>
+
+                        </div>
+                        <div class="col-12 col-md-6">
+                            <h4 class="main-title">Payment Info</h4>
+                            <table class="table table-hover">
+                                <tr>
+                                    <td class="align-middle">
+                                        <input class type="radio" name="paymentType" id="cash" value="cash" checked>
+                                    </td>
+                                    <td class="align-middle">
+                                        <label for="cash">
+                                        Cash
+                                      </label>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="align-middle">
+                                        <input class="" type="radio" name="paymentType" id="card" value="card">
+                                    </td>
+                                    <td class="align-middle">
+                                        <label for="card">
+                                        Visa/MasterCard
+                                      </label>
+                                    </td>
+                                </tr>
+
+                            </table>
+                            <div class="total-amount-container">
+                                <span class="total-amount">Order total amount:</span>
+                                <span class="total-amount"><%= totalAmount %></span>
+                            </div>
+                            <button type="submit" class="btn btn-warning btn-lg btn-block my-2">Confirm order</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <%- include('./partials/areas-menu'); -%>
+    </div>
+    <%- include('./partials/footer'); -%>

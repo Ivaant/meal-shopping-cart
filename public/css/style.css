@@ -14,7 +14,7 @@ body {
 }
 
 .main-title {
-    margin: 10px auto;
+    margin: 15px auto;
     text-align: center;
 }
 
@@ -75,6 +75,21 @@ input[type=number]::-webkit-outer-spin-button {
     -webkit-appearance: none;
     -moz-appearance: textfield;
     margin: 0;
+}
+
+.total-amount-container {
+    width: 60%;
+    margin-top: 40px;
+    margin-left: auto;
+    margin-right: 20px;
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-between;
+}
+
+.total-amount {
+    text-align: left;
+    font-size: 1.5rem;
 }
 
 .footer {
