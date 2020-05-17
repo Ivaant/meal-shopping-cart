@@ -9,6 +9,11 @@ const initState = require(__dirname + '/lib/init-state.js');
 const { Item, Cart } = require(__dirname + '/lib/Cart.js');
 const port = process.env.PORT || 3000;
 
+const { Customer } = require(__dirname + '/models/Customer.js');
+const { Order } = require(__dirname + '/models/Order.js');
+const { CartModel } = require(__dirname + '/models/CartModel.js');
+const { ItemModel } = require(__dirname + '/models/ItemModel.js');
+
 let state;
 
 (async() => {
@@ -39,6 +44,10 @@ app.use(session({
 mongoose.connect("mongodb://localhost:27017/mealCartDB", { useNewUrlParser: true, useUnifiedTopology: true });
 mongoose.set('useCreateIndex', true);
 mongoose.set('useFindAndModify', false);
+
+const conn = mongoose.connection;
+conn.on('error', () => console.log("Connection error"));
+conn.once('open', () => console.log(`Connected successfully to ${conn.name}`));
 
 app.get("/", (req, res) => {
     if (!req.session.cart) {
@@ -171,9 +180,56 @@ app.get("/checkout", (req, res) => {
 
 app.post("/checkout", (req, res) => {
     const { name, phoneNumber, email, deliveryType, paymentType } = req.body;
+
     console.log(req.body);
 
-    res.redirect("/checkout");
+    const items = req.session.cart.items.map(item => {
+        return new ItemModel({
+            id: item.id,
+            title: item.title,
+            price: item.price,
+            qty: item.qty,
+            image: item.image
+        });
+    });
+    const cart = new CartModel({
+        items: items,
+        total: req.session.cart.total
+    });
+
+    Customer.findOne({ name: name, phone: phoneNumber }, (err, foundCustomer) => {
+        if (err) console.log(err);
+        else {
+            if (!foundCustomer) {
+                Customer.create({
+                    name: name,
+                    phone: phoneNumber,
+                    email: email
+                }, (err, newCustomer) => {
+                    const newOrder = new Order({
+                        customer: newCustomer,
+                        cart: cart,
+                        deliveryType: deliveryType,
+                        paymentType: paymentType
+                    });
+                    newOrder.save()
+                        .then(savedOrder => res.redirect("/"))
+                        .catch(err => console.log("Error while saving newOrder"));
+                });
+            } else {
+                const newOrder = new Order({
+                    customer: foundCustomer,
+                    cart: cart,
+                    deliveryType: deliveryType,
+                    paymentType: paymentType
+                });
+                newOrder.save()
+                    .then(savedOrder =>
+                        res.redirect("/"))
+                    .catch(err => console.log("Error while saving newOrder"));
+            }
+        }
+    });
 });
 
 app.listen(port, () => {
