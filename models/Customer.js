@@ -7,7 +7,6 @@ const customerSchema = new mongoose.Schema({
     },
     phone: {
         type: Number,
-        unique: true,
         required: [true, `Field "phone" is required.`]
     },
     email: String,

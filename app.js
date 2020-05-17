@@ -213,7 +213,10 @@ app.post("/checkout", (req, res) => {
                         paymentType: paymentType
                     });
                     newOrder.save()
-                        .then(savedOrder => res.redirect("/"))
+                        .then(savedOrder => {
+                            req.session.cart = new Cart();
+                            res.redirect("/");
+                        })
                         .catch(err => console.log("Error while saving newOrder"));
                 });
             } else {
@@ -224,9 +227,11 @@ app.post("/checkout", (req, res) => {
                     paymentType: paymentType
                 });
                 newOrder.save()
-                    .then(savedOrder =>
-                        res.redirect("/"))
-                    .catch(err => console.log("Error while saving newOrder"));
+                    .then(savedOrder => {
+                        req.session.cart = new Cart();
+                        res.redirect("/");
+                    })
+                    .catch(err => console.log(err, "Error while saving newOrder with old Customer"));
             }
         }
     });
