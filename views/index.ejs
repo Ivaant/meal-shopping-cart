@@ -8,7 +8,7 @@
                 <div class="main-flex">
                     <% meals.forEach((meal, index) => { %>
                         <div class="card m-2 p-2 w-25">
-                            <a href="/meals/<%= meal.idMeal %>/index/<%= index %>">
+                            <a href="/meals/<%= meal.idMeal %>/price/<%= meal.price %>">
                                 <img src="<%= meal.strMealThumb %>" class="card-img-top w-100" alt="meal">
                             </a>
                             <div class="card-body py-2">

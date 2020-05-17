@@ -85,8 +85,8 @@ app.get("/areas/:areaName", (req, res) => {
         .catch(error => console.log(error));
 });
 
-app.get("/meals/:mealID/index/:index", (req, res) => {
-    const { mealID, index } = req.params;
+app.get("/meals/:mealID/price/:price", (req, res) => {
+    const { mealID, price } = req.params;
     const baseUrl = "https://www.themealdb.com/api/json/v1/1/lookup.php?i=" + mealID;
     axios.get(baseUrl)
         .then(mealData => {
@@ -103,9 +103,10 @@ app.get("/meals/:mealID/index/:index", (req, res) => {
                 }
             }
             res.render('meal-page', {
+                mealID: mealItem.idMeal,
                 title: mealItem.strMeal,
                 picture: mealItem.strMealThumb,
-                meal: state.meals[index],
+                price: price,
                 recipe: mealItem.strInstructions,
                 category: mealItem.strCategory,
                 cuisine: mealItem.strArea,
@@ -148,6 +149,15 @@ app.get("/cart/:mealID", (req, res) => {
     const mealID = req.params.mealID;
     const cart = Cart.deserializeCart(req.session.cart);
     cart.deleteItem(mealID);
+    req.session.cart = cart;
+    res.redirect("/cart");
+});
+
+app.post("/cart/:mealID", (req, res) => {
+    const mealID = req.params.mealID;
+    const qty = req.body.qty;
+    const cart = Cart.deserializeCart(req.session.cart);
+    cart.updateQty(mealID, qty);
     req.session.cart = cart;
     res.redirect("/cart");
 });

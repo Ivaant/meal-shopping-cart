@@ -22,18 +22,27 @@
                                     <th scope="row" class="align-middle">
                                         <span><%= index+1 %></span>
                                     </th>
-                                    <td><img src="<%= item.image %>" alt="<%= item.title %>" class="w-25">
-                                        <span><%= item.title %></span>
+                                    <td>
+                                        <a href="/meals/<%= item.id %>/price/<%= item.getFormattedPrice() %>" class="text-decoration-none text-reset">
+                                            <img src="<%= item.image %>" alt="<%= item.title %>" class="w-25">
+                                            <span><%= item.title %></span>
+                                        </a>
+
                                     </td>
                                     <td class="align-middle">
                                         <%= item.getFormattedPrice() %>
                                     </td>
-                                    <td class="align-middle">
-                                        <span class="qty-wrap">
-                                            <span class="qty-minus"><i class="fa fa-minus"></i></span>
-                                        <input type="number" name="qty" class="qty" value="<%= item.qty %>" min="1" style="width: 60px;">
-                                        <span class="qty-plus"><i class="fa fa-plus"></i></span>
-                                        </span>
+                                    <td class="align-bottom">
+                                        <form action="/cart/<%= item.id %>" method="POST">
+                                            <span class="qty-wrap">
+                                                <span class="qty-minus"><i class="fa fa-minus"></i></span>
+                                            <input type="number" name="qty" class="qty" value="<%= item.qty %>" min="1" style="width: 60px;">
+                                            <span class="qty-plus"><i class="fa fa-plus"></i></span>
+                                            <div>
+                                                <button type="submit" class="btn btn-outline-dark mb-4 mt-3 px-4">Update</button>
+                                            </div>
+                                            </span>
+                                        </form>
                                     </td>
                                     <td class="align-middle">
                                         <span><%= item.getFormattedAmount() %></span>
