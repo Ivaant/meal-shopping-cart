@@ -1,0 +1,49 @@
+<%- include('./partials/header'); -%>
+    <div class="row main-row">
+        <%- include('./partials/categories-menu'); -%>
+            <div class="col-12 col-md-8">
+                <h2 class="main-title">
+                    Meal Rating
+                </h2>
+                <table class="table table-hover table-striped">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th scope="col" class="text-warning">Rating</th>
+                            <th scope="col" class="text-warning">Appearance</th>
+                            <th scope="col" class="text-warning">Title</th>
+                            <th scope="col" class="text-warning">Orders Count</th>
+                            <th scope="col" class="text-warning">Orders Amount</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% mealRating.forEach((meal, rating) => { %>
+                            <tr>
+                                <th scope="row" class="align-middle">
+                                    <span><%= rating + 1 %></span>
+                                </th>
+                                <td class="align-middle">
+                                    <img src="<%= meal.image %>" alt="<%= meal.title %>" width="200px">
+                                </td>
+                                <td class="align-middle">
+                                    <%= meal.title %>
+                                </td>
+                                <td class="align-middle">
+                                    <%= meal.qty %>
+                                </td>
+                                <td class="align-middle">
+                                    <%= meal.ordersTotal.toLocaleString('en-US', { style: 'currency', currency: 'USD' }); %>
+                                </td>
+                            </tr>
+                            <% }); %>
+                                <tr>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td colspan="2"><a href="/admin/orders" class="btn btn-warning btn-lg btn-block">Back to Orders</a></td>
+                                </tr>
+                    </tbody>
+                </table>
+            </div>
+            <%- include('./partials/areas-menu'); -%>
+    </div>
+    <%- include('./partials/footer'); -%>

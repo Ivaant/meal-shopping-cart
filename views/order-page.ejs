@@ -1,0 +1,55 @@
+<%- include('./partials/header'); -%>
+    <div class="row main-row">
+        <%- include('./partials/categories-menu'); -%>
+            <div class="col-12 col-md-8">
+                <h2 class="main-title">
+                    Orders Statistics
+                </h2>
+                <table class="table table-hover table-striped">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th scope="col" class="text-warning">#</th>
+                            <th scope="col" class="text-warning">Order Number</th>
+                            <th scope="col" class="text-warning">Order Amount</th>
+                            <th scope="col" class="text-warning">Customer</th>
+                            <th scope="col" class="text-warning">Phone</th>
+                            <th scope="col" class="text-warning">Date</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% orders.forEach((order, index) => { %>
+                            <tr>
+                                <th scope="row" class="align-middle">
+                                    <span><%= index+1 %></span>
+                                </th>
+                                <td class="align-middle">
+                                    <%= order.orderNumber %>
+                                </td>
+                                <td class="align-middle">
+                                    <%= order.cart.formattedTotal %>
+                                </td>
+                                <td class="align-middle">
+                                    <%= order.customer.name %>
+                                </td>
+                                <td class="align-middle">
+                                    <%= order.customer.phone %>
+                                </td>
+                                <td>
+                                    <%= order.date.toLocaleDateString('ru-RU') %>
+                                </td>
+                            </tr>
+                            <% }); %>
+                                <tr>
+                                    <td colspan="2" class="align-middle">Total Amount:</td>
+                                    <td class="align-middle">
+                                        <%= totalAmount.toLocaleString('en-US', { style: 'currency', currency: 'USD' }); %>
+                                    </td>
+                                    <td><a href="/admin/customer/rating" class="btn btn-warning btn-lg btn-block">Customer Rating</a></td>
+                                    <td colspan="2"><a href="/admin/meal/rating" class="btn btn-warning btn-lg btn-block">Meal Rating</a></td>
+                                </tr>
+                    </tbody>
+                </table>
+            </div>
+            <%- include('./partials/areas-menu'); -%>
+    </div>
+    <%- include('./partials/footer'); -%>

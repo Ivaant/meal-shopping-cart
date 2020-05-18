@@ -255,6 +255,85 @@ app.post("/checkout", (req, res) => {
     });
 });
 
+app.get("/admin/orders", (req, res) => {
+    Order.find({}, (err, allOrders) => {
+        const totalAmount = allOrders.reduce((all, order) => {
+            return all += order.cart.total;
+        }, 0);
+        res.render("order-page", {
+            categoryNames: state.categoryNames,
+            areaNames: state.areaNames,
+            orders: allOrders,
+            totalAmount: totalAmount
+        });
+    });
+});
+
+app.get("/admin/customer/rating", (req, res) => {
+    Order.find({}, (err, allOrders) => {
+        const customerRating = {};
+        allOrders.forEach(order => {
+            const id = order.customer._id;
+            let customer = customerRating[id];
+            if (!customer) {
+                customer = {
+                    name: order.customer.name,
+                    phone: order.customer.phone,
+                    ordersCount: 1,
+                    ordersTotal: order.cart.total
+                };
+                customerRating[id] = customer;
+            } else {
+                customer.ordersCount++;
+                customer.ordersTotal += order.cart.total;
+            }
+        });
+        const customerTotals = Object.values(customerRating);
+        customerTotals.sort((a, b) => {
+            return b.ordersTotal - a.ordersTotal;
+        });
+        res.render("customer-rating", {
+            categoryNames: state.categoryNames,
+            areaNames: state.areaNames,
+            customerRating: customerTotals
+        });
+    });
+});
+app.get("/admin/meal/rating", (req, res) => {
+    Order.find({}, (err, allOrders) => {
+        const mealRating = {};
+        allOrders.forEach(order => {
+            order.cart.items.forEach(item => {
+                const id = item._id;
+                let meal = mealRating[id];
+                if (!meal) {
+                    meal = {
+                        image: item.image,
+                        title: item.title,
+                        qty: item.qty,
+                        ordersTotal: item.price * item.qty
+                    };
+                    mealRating[id] = meal;
+                } else {
+                    meal.qty += item.qty;
+                    meal.ordersTotal += (item.price * item.qty);
+                }
+            });
+        });
+
+        const mealTotals = Object.values(mealRating);
+        mealTotals.sort((a, b) => {
+            return b.ordersTotal - a.ordersTotal;
+        });
+        res.render("meal-rating", {
+            categoryNames: state.categoryNames,
+            areaNames: state.areaNames,
+            mealRating: mealTotals
+        });
+    });
+
+});
+
 app.listen(port, () => {
     console.log(`Server is listening at port ${port}`);
 });
