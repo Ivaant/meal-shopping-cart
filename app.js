@@ -55,7 +55,6 @@ app.get("/", (req, res) => {
     } else {
         req.session.cart = Cart.deserializeCart(req.session.cart);
     }
-    console.log("inside get /", req.session.cart);
     res.render('index', {
         categoryNames: state.categoryNames,
         areaNames: state.areaNames,
@@ -181,8 +180,6 @@ app.get("/checkout", (req, res) => {
 app.post("/checkout", (req, res) => {
     const { name, phoneNumber, email, deliveryType, paymentType } = req.body;
 
-    console.log(req.body);
-
     const items = req.session.cart.items.map(item => {
         return new ItemModel({
             id: item.id,
@@ -194,7 +191,8 @@ app.post("/checkout", (req, res) => {
     });
     const cart = new CartModel({
         items: items,
-        total: req.session.cart.total
+        total: req.session.cart.total,
+        formattedTotal: req.session.cart.formattedTotal
     });
 
     Customer.findOne({ name: name, phone: phoneNumber }, (err, foundCustomer) => {
@@ -215,7 +213,13 @@ app.post("/checkout", (req, res) => {
                     newOrder.save()
                         .then(savedOrder => {
                             req.session.cart = new Cart();
-                            res.redirect("/");
+                            console.log(savedOrder);
+                            res.render("confirm-page", {
+                                categoryNames: state.categoryNames,
+                                areaNames: state.areaNames,
+                                orderNumber: savedOrder.orderNumber,
+                                formattedTotal: savedOrder.cart.formattedTotal
+                            });
                         })
                         .catch(err => console.log("Error while saving newOrder"));
                 });
@@ -229,7 +233,13 @@ app.post("/checkout", (req, res) => {
                 newOrder.save()
                     .then(savedOrder => {
                         req.session.cart = new Cart();
-                        res.redirect("/");
+                        console.log(savedOrder);
+                        res.render("confirm-page", {
+                            categoryNames: state.categoryNames,
+                            areaNames: state.areaNames,
+                            orderNumber: savedOrder.orderNumber,
+                            formattedTotal: savedOrder.cart.formattedTotal
+                        });
                     })
                     .catch(err => console.log(err, "Error while saving newOrder with old Customer"));
             }

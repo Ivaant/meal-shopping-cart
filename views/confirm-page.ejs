@@ -1,0 +1,19 @@
+<%- include('./partials/header'); -%>
+    <div class="row main-row">
+        <%- include('./partials/categories-menu'); -%>
+            <div class="col-12 col-md-8">
+                <h2 class="main-title">
+                    Congratulations!
+                </h2>
+                <div class="text-center">
+                    <p>Your order #
+                        <span><%= orderNumber %></span> with total amount of
+                        <span><%= formattedTotal %></span> has been successfully confirmed.
+                    </p>
+                    <p>Thank You for choosing us.</p>
+                    <p>We will be glad to se you <a href="/" class="text-warning bg-dark px-2">again!</a></p>
+                </div>
+            </div>
+            <%- include('./partials/areas-menu'); -%>
+    </div>
+    <%- include('./partials/footer'); -%>
