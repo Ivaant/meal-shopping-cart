@@ -213,7 +213,11 @@ app.post("/checkout", (req, res) => {
                     newOrder.save()
                         .then(savedOrder => {
                             req.session.cart = new Cart();
-                            console.log(savedOrder);
+
+                            (async() => {
+                                state = await initState();
+                            })();
+
                             res.render("confirm-page", {
                                 categoryNames: state.categoryNames,
                                 areaNames: state.areaNames,
@@ -233,7 +237,11 @@ app.post("/checkout", (req, res) => {
                 newOrder.save()
                     .then(savedOrder => {
                         req.session.cart = new Cart();
-                        console.log(savedOrder);
+
+                        (async() => {
+                            state = await initState();
+                        })();
+
                         res.render("confirm-page", {
                             categoryNames: state.categoryNames,
                             areaNames: state.areaNames,
