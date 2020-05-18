@@ -34,27 +34,40 @@
                         </form>
                     </div>
                 </div>
+                <div class="p-3">
+                    <h3 class="text-left">Ingredients:</h3>
+                    <table>
+                        <% ingredients.forEach(elem => { %>
+                            <tr>
+                                <td>
+                                    <%= elem.ingredient %>
+                                </td>
+                                <td class="text-right">
+                                    <%= elem.measure %>
+                                </td>
+                            </tr>
+                            <% }); %>
+                    </table>
+                </div>
             </div>
+
             <div class="col-lg-4">
-                <h3 class="text-center">
-                    Recipe:
-                </h3>
-                <p class="text-justify">
-                    <%= recipe %>
-                </p>
-                <h3 class="text-left">Ingredients:</h3>
-                <table>
-                    <% ingredients.forEach(elem => { %>
-                        <tr>
-                            <td>
-                                <%= elem.ingredient %>
-                            </td>
-                            <td class="text-right">
-                                <%= elem.measure %>
-                            </td>
-                        </tr>
-                        <% }); %>
-                </table>
+                <div class="p-3">
+                    <h3 class="text-center">
+                        Recipe:
+                    </h3>
+                    <p class="text-left">
+                        <%= recipe %>
+                    </p>
+                </div>
+                <div class="card m-2 p-2">
+                    <h5>Video Recipe</h5>
+                    <div class="videoWrapper">
+                        <iframe width="680" height="510" src="https://www.youtube.com/embed/<%= movie.slice(-11) %>">
+                        </iframe>
+                    </div>
+                </div>`
+
             </div>
             <%- include('./partials/areas-menu'); -%>
     </div>
