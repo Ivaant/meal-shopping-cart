@@ -35,7 +35,7 @@
                                     <%= order.customer.phone %>
                                 </td>
                                 <td>
-                                    <%= order.date.toLocaleString('en-GB') %>
+                                    <%= order.date.toLocaleString('en-US', {day: 'numeric', month: 'short', year: 'numeric', hour: 'numeric', minute: 'numeric'}) %>
                                 </td>
                             </tr>
                             <% }); %>
