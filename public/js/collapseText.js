@@ -8,7 +8,7 @@ const collapseBut = document.createElement("button");
 
 
 const recipeText = recipeTextElem.textContent;
-const recipeTextShort = trancateString(recipeText, 1050);
+const recipeTextShort = trancateString(recipeText, 850);
 
 function trancateString(string, length) {
     if (string.length > length) return string.slice(0, length);
@@ -36,7 +36,7 @@ function createUI() {
 
 function collapseText() {
     createUI();
-    if (recipeText.length > 1050) {
+    if (recipeText.length > 850) {
         recipeTextElem.textContent = recipeTextShort;
         recipeContainerElem.appendChild(readMoreBut);
     }
