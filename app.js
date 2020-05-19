@@ -1,3 +1,4 @@
+require('dotenv').config();
 const express = require('express');
 const axios = require('axios');
 const bodyParser = require('body-parser');
@@ -29,19 +30,19 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
 const store = new MongoDBStore({
-    uri: 'mongodb://localhost:27017/mealCartDB',
+    uri: process.env.DB_URI,
     collection: 'sessions'
 });
 
 app.use(session({
-    secret: "This is a shopping cart application",
+    secret: process.env.SECRET,
     resave: false,
     saveUninitialized: true,
     unset: 'destroy',
     store: store
 }));
 
-mongoose.connect("mongodb://localhost:27017/mealCartDB", { useNewUrlParser: true, useUnifiedTopology: true });
+mongoose.connect(process.env.DB_URI, { useNewUrlParser: true, useUnifiedTopology: true });
 mongoose.set('useCreateIndex', true);
 mongoose.set('useFindAndModify', false);
 
@@ -65,7 +66,7 @@ app.get("/", (req, res) => {
 
 app.get("/categories/:categoryName", (req, res) => {
     const categoryName = req.params.categoryName;
-    const baseUrl = "https://www.themealdb.com/api/json/v1/1/filter.php?c=" + categoryName;
+    const baseUrl = process.env.API_CAT_URL + categoryName;
     axios.get(baseUrl)
         .then(categoryMeals => {
             state.meals = categoryMeals.data.meals.map(meal => {
@@ -80,7 +81,7 @@ app.get("/categories/:categoryName", (req, res) => {
 
 app.get("/areas/:areaName", (req, res) => {
     const areaName = req.params.areaName;
-    const baseUrl = "https://www.themealdb.com/api/json/v1/1/filter.php?a=" + areaName;
+    const baseUrl = process.env.API_AREA_URL + areaName;
     axios.get(baseUrl)
         .then(areaMeals => {
             state.meals = areaMeals.data.meals.map(meal => {
@@ -95,7 +96,7 @@ app.get("/areas/:areaName", (req, res) => {
 
 app.get("/meals/:mealID/price/:price", (req, res) => {
     const { mealID, price } = req.params;
-    const baseUrl = "https://www.themealdb.com/api/json/v1/1/lookup.php?i=" + mealID;
+    const baseUrl = process.env.API_MEAL_URL + mealID;
     axios.get(baseUrl)
         .then(mealData => {
             const mealItem = mealData.data.meals[0];
