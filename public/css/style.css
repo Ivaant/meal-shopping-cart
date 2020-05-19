@@ -4,7 +4,7 @@ body {
     font-family: 'Roboto', sans-serif;
     /* default is 1rem or 16px */
     font-size: 1.3rem;
-    font-weight: 500;
+    font-weight: 300;
     line-height: 1.5;
 }
 
@@ -35,6 +35,7 @@ body {
 
 .side-menu a {
     color: #5E4632;
+    font-weight: 500;
     text-decoration: none;
 }
 
@@ -90,6 +91,11 @@ input[type=number]::-webkit-outer-spin-button {
 .total-amount {
     text-align: left;
     font-size: 1.5rem;
+}
+
+#recipe-container {
+    height: 950px;
+    overflow: auto;
 }
 
 .footer {

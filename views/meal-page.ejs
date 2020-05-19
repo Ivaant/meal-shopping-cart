@@ -52,11 +52,11 @@
             </div>
 
             <div class="col-lg-4">
-                <div class="p-3">
+                <div class="p-3" id="recipe-container">
                     <h3 class="text-center">
                         Recipe:
                     </h3>
-                    <p class="text-left">
+                    <p class="text-left" id="recipe-text">
                         <%= recipe %>
                     </p>
                 </div>
@@ -71,5 +71,5 @@
             </div>
             <%- include('./partials/areas-menu'); -%>
     </div>
-
+    <script src="/static/js/collapseText.js"></script>
     <%- include('./partials/footer'); -%>
