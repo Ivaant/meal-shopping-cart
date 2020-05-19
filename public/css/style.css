@@ -70,7 +70,7 @@ body {
     transform: scale(1.03);
 }
 
-img {
+.card-image {
     width: 100%;
 }
 
