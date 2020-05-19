@@ -29,8 +29,12 @@ body {
 }
 
 .side-bar {
-    border: 3px solid black;
+    border: 1px solid black;
     background: linear-gradient(rgb(212, 138, 78), #DE8033);
+}
+
+.side-bar:hover {
+    box-shadow: 5px 10px 15px #444;
 }
 
 .side-menu a {
@@ -55,6 +59,15 @@ body {
 
 .flex {
     border: 3px solid black;
+}
+
+.card {
+    transition: all .2s ease .1s;
+}
+
+.card:hover {
+    box-shadow: 5px 10px 20px #444;
+    transform: scale(1.03);
 }
 
 .card-params {
