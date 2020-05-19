@@ -8,7 +8,7 @@ const MongoDBStore = require('connect-mongodb-session')(session);
 const priceGen = require(__dirname + '/lib/price-gen.js');
 const initState = require(__dirname + '/lib/init-state.js');
 const { Item, Cart } = require(__dirname + '/lib/Cart.js');
-const port = process.env.PORT || 3000;
+let port = process.env.PORT || 3000;
 
 const { Customer } = require(__dirname + '/models/Customer.js');
 const { Order } = require(__dirname + '/models/Order.js');
