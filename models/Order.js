@@ -3,7 +3,7 @@ const autoIncrement = require('mongoose-auto-increment');
 const { customerSchema } = require('./Customer.js');
 const { cartSchema } = require('./CartModel.js');
 
-const connection = mongoose.createConnection("mongodb://localhost:27017/mealCartDB", { useNewUrlParser: true, useUnifiedTopology: true });
+const connection = mongoose.createConnection(process.env.DB_URI, { useNewUrlParser: true, useUnifiedTopology: true });
 autoIncrement.initialize(connection);
 
 const orderSchema = new mongoose.Schema({

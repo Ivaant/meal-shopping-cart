@@ -17,9 +17,13 @@ const { ItemModel } = require(__dirname + '/models/ItemModel.js');
 
 let state;
 
-(async() => {
-    state = await initState();
-})();
+try {
+    (async() => {
+        state = await initState();
+    })();
+} catch (err) {
+    console.log(err);
+}
 
 const app = express();
 
@@ -205,28 +209,36 @@ app.post("/checkout", (req, res) => {
                     phone: phoneNumber,
                     email: email
                 }, (err, newCustomer) => {
-                    const newOrder = new Order({
-                        customer: newCustomer,
-                        cart: cart,
-                        deliveryType: deliveryType,
-                        paymentType: paymentType
-                    });
-                    newOrder.save()
-                        .then(savedOrder => {
-                            req.session.cart = new Cart();
+                    if (err) console.log(err);
+                    else {
+                        const newOrder = new Order({
+                            customer: newCustomer,
+                            cart: cart,
+                            deliveryType: deliveryType,
+                            paymentType: paymentType
+                        });
+                        newOrder.save()
+                            .then(savedOrder => {
+                                req.session.cart = new Cart();
 
-                            (async() => {
-                                state = await initState();
-                            })();
+                                try {
+                                    (async() => {
+                                        state = await initState();
+                                    })();
+                                } catch (err) {
+                                    console.log(err);
+                                }
 
-                            res.render("confirm-page", {
-                                categoryNames: state.categoryNames,
-                                areaNames: state.areaNames,
-                                orderNumber: savedOrder.orderNumber,
-                                formattedTotal: savedOrder.cart.formattedTotal
-                            });
-                        })
-                        .catch(err => console.log("Error while saving newOrder"));
+
+                                res.render("confirm-page", {
+                                    categoryNames: state.categoryNames,
+                                    areaNames: state.areaNames,
+                                    orderNumber: savedOrder.orderNumber,
+                                    formattedTotal: savedOrder.cart.formattedTotal
+                                });
+                            })
+                            .catch(err => console.log("Error while saving newOrder"));
+                    }
                 });
             } else {
                 const newOrder = new Order({
@@ -239,9 +251,14 @@ app.post("/checkout", (req, res) => {
                     .then(savedOrder => {
                         req.session.cart = new Cart();
 
-                        (async() => {
-                            state = await initState();
-                        })();
+                        try {
+                            (async() => {
+                                state = await initState();
+                            })();
+                        } catch (err) {
+                            console.log(err);
+                        }
+
 
                         res.render("confirm-page", {
                             categoryNames: state.categoryNames,
