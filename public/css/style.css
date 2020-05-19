@@ -70,6 +70,10 @@ body {
     transform: scale(1.03);
 }
 
+img {
+    width: 100%;
+}
+
 .card-params {
     display: flex;
     justify-content: space-between;
