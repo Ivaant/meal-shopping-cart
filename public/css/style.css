@@ -111,7 +111,7 @@ input[type=number]::-webkit-outer-spin-button {
 }
 
 #recipe-container {
-    height: 950px;
+    height: 600px;
     overflow: auto;
 }
 
