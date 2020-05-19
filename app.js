@@ -334,6 +334,13 @@ app.get("/admin/meal/rating", (req, res) => {
 
 });
 
+app.get("/about", (req, res) => {
+    res.render("about", {
+        categoryNames: state.categoryNames,
+        areaNames: state.areaNames
+    });
+});
+
 app.listen(port, () => {
     console.log(`Server is listening at port ${port}`);
 });
