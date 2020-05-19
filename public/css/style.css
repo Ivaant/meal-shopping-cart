@@ -19,7 +19,7 @@ body {
 }
 
 .container-fluid {
-    margin-top: 80px;
+    margin-top: 78px;
     min-height: calc(100vh - 145px);
     background: linear-gradient(rgb(247, 210, 168), #f59d39);
 }
