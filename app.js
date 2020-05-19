@@ -17,13 +17,10 @@ const { ItemModel } = require(__dirname + '/models/ItemModel.js');
 
 let state;
 
-try {
-    (async() => {
-        state = await initState();
-    })();
-} catch (err) {
-    console.log(err);
-}
+(async() => {
+    state = await initState();
+})();
+
 
 const app = express();
 
@@ -221,14 +218,9 @@ app.post("/checkout", (req, res) => {
                             .then(savedOrder => {
                                 req.session.cart = new Cart();
 
-                                try {
-                                    (async() => {
-                                        state = await initState();
-                                    })();
-                                } catch (err) {
-                                    console.log(err);
-                                }
-
+                                (async() => {
+                                    state = await initState();
+                                })();
 
                                 res.render("confirm-page", {
                                     categoryNames: state.categoryNames,
@@ -251,14 +243,9 @@ app.post("/checkout", (req, res) => {
                     .then(savedOrder => {
                         req.session.cart = new Cart();
 
-                        try {
-                            (async() => {
-                                state = await initState();
-                            })();
-                        } catch (err) {
-                            console.log(err);
-                        }
-
+                        (async() => {
+                            state = await initState();
+                        })();
 
                         res.render("confirm-page", {
                             categoryNames: state.categoryNames,
