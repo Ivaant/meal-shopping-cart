@@ -63,6 +63,13 @@ body {
 
 .card {
     transition: all .2s ease .1s;
+		flex: 0 0 30%;
+}
+
+.cad-body {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
 }
 
 .card:hover {
@@ -75,8 +82,21 @@ body {
 }
 
 .card-params {
-    display: flex;
-    justify-content: space-between;
+    text-align: center;
+}
+
+.card-details {
+	display: flex;
+	justify-content: space-around;
+	align-items: center;
+}
+
+.card__price {
+	margin: 10px auto;
+}
+
+.qty-wrap {
+	text-align: center;
 }
 
 .qty-minus,
