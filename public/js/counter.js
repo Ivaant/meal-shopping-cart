@@ -27,5 +27,4 @@ const counter = {
 
 document.addEventListener('DOMContentLoaded', () => {
 	counter.quantity();
-	console.log("counter connected!");
 });
